@@ -18,7 +18,7 @@ $H_1$: $\mu > 20$
 
 We only have a sample of 20 tips, so we don't know the variance of the population. The test statistic we use is:
 
-$t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt(n)}}$, where $\bar{x}$ is the sample mean, $\mu_0$ is the population mean (20 in this case), $s$ is the sample standard deviation, and $n$ is the sample size. In order to get the p-value of this test statistic, we use Student's t distribution with $n-1$ degrees of freedom. Aditionally, we are doing a one-sided test.
+$t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}}$, where $\bar{x}$ is the sample mean, $\mu_0$ is the population mean (20 in this case), $s$ is the sample standard deviation, and $n$ is the sample size. In order to get the p-value of this test statistic, we use Student's t distribution with $n-1$ degrees of freedom. Aditionally, we are doing a one-sided test.
 
 We use R to plot a histogram of the tips, and calculate the test statistic, as well as the final p-value, with a printed output result.
 
@@ -49,6 +49,8 @@ if(p < alpha){
 Here, we have $\mu_0 = 20$, $\bar{x} = `r round(x_bar, 3)`$, $s = `r round(s, 3)`$, $n = `r n`$, and $t = `r round(t, 3)`$.
 
 We can see that we get a p-value p = $`r round(p, digits = 5)`$ < $\alpha$. Therefore, we reject the null hypothesis that the tip amount is equal to 20 percent when there is a weather message on the bill, and we accept the alternate hypothesis that the tip amount is greater than 20 percent.
+
+***
 
 \newpage
 # 2
@@ -84,15 +86,15 @@ The confidence interval for my particular sample is `(`r round(lower, digits=3)`
 # 3
 A _paired t-test_ is used to compare the means from two distinct populations when you have two paired samples, meaning that observations in one sample can be associated with observations in the second.
 
-Here, we wish to test whether expert stock pickers outpreform the Dow Jones Industrial Average (DJIA). The two samples are paired, since we have the monthly returns for the two samples. The null hypothesis $H_0$ is that experts do not outperfom the DJIA. The alternate hypothesis $H_1$ is that the experts have a higher monthly return that the DJIA. In other words, we are testing whether the difference of means is greater than 0. It is a one-sided test. Here, $\alpha = 0.05$.
+Here, we wish to test whether expert stock pickers outperform the Dow Jones Industrial Average (DJIA). The two samples are paired, since we have the monthly returns for the two samples. The null hypothesis $H_0$ is that experts do not outperfom the DJIA. The alternate hypothesis $H_1$ is that the experts have a higher monthly return that the DJIA. In other words, we are testing whether the difference of means is greater than 0. It is a one-sided test. Here, $\alpha = 0.05$.
 
 $H_0: \mu \leq mean(DJIA)$
 
 $H_1: \mu > mean(DJIA)$
 
-In order to perform this test, we first average the monthly return across the stock experts. Then, we calculate the differences between this average and the DJIA for each month. The mean of this measure is stored in the variable $\bar{d}$. We also need the standard deviation of the differences $s$, and the size of the sample $n$. With all these values, we can calculate our t-statistic using the formula:
+Comparing two means is the same as comparing their difference to 0. In order to perform this test, we first average the monthly return across the stock experts. Then, we calculate the differences between this average and the DJIA for each month. The mean of this measure is stored in the variable $\bar{d}$. We also need the standard deviation of the differences $s$, and the size of the sample $n$. With all these values, we can calculate our t-statistic using the formula:
 
-$t = \frac{\bar{d}}{\frac{s}{\sqrt{n}}}$
+$t = \frac{\bar{d} - 0}{\frac{s}{\sqrt{n}}}$
 
 In order to get the p-value of this test statistic, we use Student's t distribution with $n-1$ degrees of freedom.
 
@@ -142,7 +144,7 @@ We can see that they are the same results that we got.
 # 4
 In this exercise, we are comparing the reading comprehension results by people who used two different types of lenses, Plano and Plus. We want to compute a 99% confidence interval for the true mean difference between the scores. Since the same people used the two lenses and performed the reading comprehension test with both types of lenses, the results are paired, and we can use a paired statistic to test the difference between the scores.
 
-We don't know the true population variance for the difference in the scores. From the samples, we get the difference between the scores using either lenses. We have $\bar{d}$ the mean of these sample differences, $s$ the standard deviation for the differences, and $n$ the samples size. We have $\alpha = 0.01$. Since we don't know the population variance, we will be using a Student's distribution in order to calculate the confidence interval.
+We don't know the true population variance for the difference in the scores. From the samples, we get the difference between the scores using either lenses. We have $\bar{d}$ the mean of these sample differences (Plus - Plano), $s$ the standard deviation for the differences, and $n$ the samples size. We have $\alpha = 0.01$. Since we don't know the population variance, we will be using a Student's distribution in order to calculate the confidence interval.
 
 In order to get the confidence interval, we use the formula:
 
@@ -167,14 +169,14 @@ upper <- d_bar + t_star*s/sqrt(n)
 
 Here, we have $\bar{d} = `r round(d_bar, 3)`$, $s = `r round(s, 3)`$, $n = `r n`$, and $t^*_{\frac{\alpha}{2}, n-1} = `r round(t_star, 3)`$.
 
-We get the 99% confidence interval `(`r round(lower, digits=3)`; `r round(upper, 3)`)`, and we have $\bar{d} = `r round(d_bar, 3)` \in (`r round(lower, 3)`; `r round(upper, 3)`)$.
+We get the 99% confidence interval `(`r round(lower, digits=3)`; `r round(upper, 3)`)`, and we have $\bar{d} = `r round(d_bar, 3)` \in (`r round(lower, 3)`; `r round(upper, 3)`)$. Plus lenses seem to give yield better test scores than Plano lenses.
 
 The confidence interval for my particular sample is `(`r round(lower, digits=3)`; `r round(upper, digits=3)`)`. Similarly-constructed intervals, computed over many different random samples, will contain the true mean reading comprehension difference between the two lenses $\mu$ with probability 99%.
 
 ***
 
 # 5
-Here, we want to build a 95% confidence interval for the true proportion of times the coin will come up heads. We have the number of trials $n = 34$, the sample probability of the coin coming heads up $\bar{p} = \frac{15}{34} \simeq 0.441$. We have $n \times p = n \times (1 - p) = 17 \geq 10$, which means that we can use the Demoivre-Laplace theorem. In particular, we get
+Here, we want to build a 95% confidence interval for the true proportion of times the coin will come up heads. We have the number of trials $n = 34$, the sample probability of the coin coming heads up $\bar{p} = \frac{15}{34} \simeq 0.441$. We have $n \bar{p} = 15 \geq 10$ and $n (1 - \bar{p}) = 19 \geq 10$, which means that we can use the Demoivre-Laplace theorem. In particular, we get
 
 $\bar{X} \sim N(p, \frac{p (1 - p)}{n})$, where $X_i \sim Ber(p)$, and $X = X_1 + \ldots + X_n$.
 
@@ -204,7 +206,7 @@ The confidence interval for my particular sample is `(`r round(lower, digits=3)`
 ***
 
 # 6
-In problem #5, we obtained a 95% confidence interval `(`r round(lower, digits=3)`; `r round(upper, 3)`)`. At 5% significance, the null hypothesis $H_0: \pi = 0.75$ would be rejected in favor of its two-sided alternative $H_1: \pi \neq 0.75$ because $\pi = 0.75 \notin (`r round(lower, digits=3)`; `r round(upper, 3)`)$.
+In problem #5, we obtained a 95% confidence interval `(`r round(lower, digits=3)`; `r round(upper, 3)`)` that is symmetrical. At 5% significance, the null hypothesis $H_0: \pi = 0.75$ would be rejected in favor of its two-sided alternative $H_1: \pi \neq 0.75$ because $\pi = 0.75 \notin (`r round(lower, digits=3)`; `r round(upper, 3)`)$.
 
 ***
 
@@ -341,11 +343,13 @@ $$
 
 Therefore, $\frac{\partial l}{\partial \theta} = -\frac{2 n}{\theta} + \frac{n \bar{X}}{\theta^2}$.
 
-$\frac{\partial l}{\partial \theta} = 0 \Leftrightarrow -\frac{2 n}{\theta} + \frac{n \bar{X}}{\theta^2} = 0 \Leftrightarrow \hat{\theta} = \theta(2 \theta - \bar{X} = 0 \Leftrightarrow \hat{\theta} = 0 \text{ or } \hat{\theta} = \frac{\bar{X}}{2}$. Since $\hat{\theta}$ cannot be $0$ (by definition of the probability density function), we get $\hat{\theta} = \frac{\bar{X}}{2}$.
+$\frac{\partial l}{\partial \theta} = 0 \Leftrightarrow -\frac{2 n}{\theta} + \frac{n \bar{X}}{\theta^2} = 0 \Leftrightarrow \hat{\theta} = \theta(2 \theta - \bar{X}) = 0 \Leftrightarrow \hat{\theta} = 0 \text{ or } \hat{\theta} = \frac{\bar{X}}{2}$. Since $\hat{\theta}$ cannot be $0$ (by definition of the probability density function), we get $\hat{\theta} = \frac{\bar{X}}{2}$.
 
 We just need to verify that this value is indeed a maximum:
 
-$\frac{\partial^2 l}{\partial \theta^2} = \frac{2 n}{\theta^2} - \frac{2 n \bar{X}}{\theta^3}$, which is negative for $\theta \leq n \bar{X}$.
+$\frac{\partial^2 l}{\partial \theta^2} = \frac{2 n}{\theta^2} - \frac{2 n \bar{X}}{\theta^3}$. By plugging in our candidate $\hat{\theta}$ into the equation, we get:
+
+$\frac{\partial^2 l}{\partial \theta^2} = \frac{2 n}{(\frac{\bar{X}}{2})^2} - \frac{2 n \bar{X}}{(\frac{\bar{X}}{2})^3} = -\frac{8 n}{\bar{X}^2} < 0$. It is indeed a maximum.
 
 ***
 
@@ -425,7 +429,7 @@ The Fisher transformation is given by $F(x) = \frac{1}{2}\log{(\frac{1+x}{1-x})}
 
 We also have its inverse, which is important to compute the confidence interval: $F^{-1}(x) = \frac{e^{2x}-1}{e^{2x}+1}$.
 
-Since $|\hat{\rho}| < 0.55$, we don't need to go through the Fisher transformation. In order to compute the confidence interval, we have $\hat{\rho} \pm Z^*_{\frac{\alpha}{2}} \frac{1}{n-3}$.
+Since $|\hat{\rho}| < 0.55$, we don't need to go through the Fisher transformation. In order to compute the confidence interval, we have $\hat{\rho} \pm Z^*_{\frac{\alpha}{2}} \sqrt{\frac{1}{n-3}}$.
 <!--In order to get the confidence interval, first we compute the non-transformed interval using $F(\hat{\rho}) \pm Z^*_{\frac{\alpha}{2}} \frac{1}{n-3}$. Then, the Fisher-transformed confidence interval is given by $(F^{-1}(a); F^{-1}(b))$, where $a$ and $b$ are the previously computed lower and upper bounds.-->
 
 <!--
@@ -460,8 +464,8 @@ rho_hat <- rho
 
 z_star <- qnorm(1-alpha/2)
 
-lower <- rho - z_star/(n-3)
-upper <- rho + z_star/(n-3)
+lower <- rho - z_star/sqrt(n-3)
+upper <- rho + z_star/sqrt(n-3)
 ```
 
 Here, we have $Z^*_{\frac{\alpha}{2}} = `r round(z_star, 3)`$.
@@ -539,7 +543,7 @@ We get the 90% confidence interval `(`r round(lower, 3)`; `r round(upper, 3)`)`,
 
 The confidence interval for my particular sample is `(`r round(lower, digits=3)`; `r round(upper, digits=3)`)`. Similarly-constructed intervals, computed over many different random samples, will contain the true variance of the lengths of abalone $\sigma^2$ with probability 90%.
 
-
+***
 
 
 
