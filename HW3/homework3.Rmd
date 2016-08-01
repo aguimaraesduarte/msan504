@@ -160,9 +160,11 @@ $H_1: \mu_m \neq \mu_w \Leftrightarrow \mu_m - \mu_w \neq 0$
 
 ```{r}
 genderTemp <- read.csv("EffectOfGenderBodyTemperaturesAndRestingHeartRate.csv", header=T)
-tempMen <- genderTemp$BodyTemp[genderTemp$Gender == 1]
-tempWomen<- genderTemp$BodyTemp[genderTemp$Gender == 0]
+tempMen <- genderTemp$BodyTemp[genderTemp$Gender == 0]
+tempWomen<- genderTemp$BodyTemp[genderTemp$Gender == 1]
 ```
+
+Here we assume that, in the dataset, entries where `gender` is `0` are men, and `1` are women for ease of use in the rest of the problem. But it could just as well be otherwise.
 
 ```{r, echo=F, include=F}
 h1 <- hist(tempMen)
@@ -509,7 +511,7 @@ plot(myData$BIRTHWEIGHT~myData$YEARSEDUC,
 rho_hat_0 <- cor(myData$YEARSEDUC, myData$BIRTHWEIGHT)
 ```
 
-We can see from the plot that there doesn't seem to be a correlation between the mother's education and the baby's weight at birth. The correlation between the data is $\rho = `r round(rho_hat_0, 3)`$.
+We can see from the plot that there doesn't seem to be a correlation between the mother's education and the baby's weight at birth. The correlation between the data is $\widehat{\rho_0} = `r round(rho_hat_0, 3)`$.
 
 The null hypothesis is $H_0: \rho = 0$, there is no correlation between the mother's education level and the baby's weight at birth. The alternate hypothesis is the two-sided $H_1: \rho \neq 0$, there is a correlation between the data. The plot of the data did not give us any additional prior knowledge whether there is a correlation or not, hence the two-sided alternate hypothesis. $\alpha = 0.05$.
 
@@ -549,7 +551,7 @@ We draw the original $\widehat{\rho}$ as a vertical line on the histogram.
 hist(rhos, main=expression(paste("Histogram of ", hat(rho))),
      xlab=expression(hat(rho)))
 abline(v = rho_hat_0, col="red")
-text(rho_hat_0*1.2, 7000, expression(hat(rho)[0]))
+text(rho_hat_0*1.5, 7000, bquote(hat(rho)[0] == .(round(rho_hat_0, 3))))
 
 p_empirical <- sum(rhos > rho_hat_0)/length(rhos)
 ```
