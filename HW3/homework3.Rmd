@@ -89,7 +89,7 @@ Since $f(0) = 0$, then we have $c = \frac{f(\frac{1-\alpha}{\lambda - \beta})}{g
 ```{r}
 alpha <- 2
 beta <- 1.5
-lambda <- 1/beta
+lambda <- alpha/(alpha+beta)#1/beta
 
 n <- 15000
 simulation <- data.frame(unif = runif(n, 0, 1)) # U~unif(0, 1)
